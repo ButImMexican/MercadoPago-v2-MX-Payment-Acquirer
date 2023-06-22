@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <template id="redirect_form">
+        <form t-att-action="api_url" method="post">
+            <input type="hidden" name="mpmx_init_point" t-att-value="mpmx_init_point"/>
+            <input type="hidden" name="mpmx_public_key" t-att-value="mpmx_public_key"/>
+            <input type="hidden" name="mpmx_preference_id" t-att-value="mpmx_preference_id"/>
+        </form>
+    </template>
+
+    <template id="checkout">
+        <t t-call="web.layout">
+            <t t-set="title">MercadoPago MX</t>
+            <t t-set="head">
+                <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8" />
+            </t>
+            <div id="wrap">
+                <a id="pay_mercadopago" t-att-href="mpmx_init_point" target="_self" style="display:None;">Pay with Mercado Pago</a>
+                <div class="oe_structure oe_empty">
+                    <div id="mpmx_public_key" style="visibility:hidden;" t-esc="mpmx_public_key"/>
+                    <div id="mpmx_preference_id" style="visibility:hidden;" t-esc="mpmx_preference_id"/>
+                </div>
+
+                <!-- SDK MercadoPago.js V2 -->
+                <div class="cho-container"></div>
+                <script src="https://sdk.mercadopago.com/js/v2"></script>
+                <script xmlns="http://www.w3.org/1999/xhtml">
+                    let pay_mp = document.getElementById("pay_mercadopago");
+                    let public_key = document.getElementById("mpmx_public_key").textContent;
+                    let preference_id = document.getElementById("mpmx_preference_id").textContent;
+                    const mp = new MercadoPago(public_key, {
+                      locale: 'es-MX'
+                    });
+
+                    mp.checkout({
+                      preference: {
+                        id: preference_id
+                      },
+                    });
+
+                    pay_mp.click();
+                </script>
+            </div>
+        </t>
+    </template>
+
+</odoo>

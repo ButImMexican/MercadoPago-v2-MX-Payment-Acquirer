@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="acquirer_form_mercadopago_mx" model="ir.ui.view">
+            <field name="name">acquirer.form.mercadopago.mx</field>
+            <field name="model">payment.acquirer</field>
+            <field name="inherit_id" ref="payment.payment_acquirer_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr='//group[@name="acquirer"]' position='after'>
+                    <group attrs="{'invisible': [('provider', '!=', 'mercadopago_mx')]}">
+                        <group>
+                            <field name="mercadopago_mx_public_key" attrs="{'required': [('provider', '=', 'mercadopago_mx'),('state','=','enabled')]}"/>
+                            <field name="mercadopago_mx_access_token" attrs="{'required': [('provider', '=', 'mercadopago_mx'),('state','=','enabled')]}"/>
+                        </group>
+                        <group>
+                            <field name="mercadopago_mx_test_public_key" attrs="{'required': [('provider', '=', 'mercadopago_mx'),('state','=','test')]}"/>
+                            <field name="mercadopago_mx_test_access_token" attrs="{'required': [('provider', '=', 'mercadopago_mx'),('state','=','test')]}"/>
+                        </group>
+                    </group>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="transaction_form_mercadopago_mx" model="ir.ui.view">
+            <field name="name">acquirer.transaction.form.mercadopago_mx</field>
+            <field name="model">payment.transaction</field>
+            <field name="inherit_id" ref="payment.payment_transaction_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='acquirer_id']" position="after">
+                    <field name="mercadopago_mx_preference_id" attrs="{'invisible':[('provider', '!=', 'mercadopago_mx')]}"/>
+                    <field name="mercadopago_mx_collector_id" attrs="{'invisible':[('provider', '!=', 'mercadopago_mx')]}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>
